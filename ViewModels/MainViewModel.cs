@@ -12,6 +12,11 @@ public partial class MainViewModel : ObservableObject
 {
     private const string SettingThemeKey = "Theme";
     private const string SettingSortKey = "SortOption";
+    private const string SettingDetailWidthKey = "DetailPaneWidth";
+
+    public const double DefaultDetailPaneWidth = 480.0;
+    public const double MinDetailPaneWidth = 340.0;
+    public const double MaxDetailPaneWidth = 760.0;
 
     private readonly TaskRepository _repository;
     private readonly List<TaskItemViewModel> _allTasks = [];
@@ -103,6 +108,9 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty]
     private bool _hasUndoableDelete;
 
+    [ObservableProperty]
+    private double _detailPaneWidth = DefaultDetailPaneWidth;
+
     public bool IsTodaySelected => ActiveViewType == SmartViewType.Today;
     public bool IsUpcomingSelected => ActiveViewType == SmartViewType.Upcoming;
     public bool IsAllSelected => ActiveViewType == SmartViewType.All;
@@ -139,6 +147,12 @@ public partial class MainViewModel : ObservableObject
         if (Enum.TryParse<TaskSortOption>(savedSort, out var parsedSort))
         {
             SelectedSortOption = SortOptions.FirstOrDefault(s => s.Value == parsedSort) ?? SortOptions[0];
+        }
+
+        var savedWidth = await _repository.GetSettingAsync(SettingDetailWidthKey);
+        if (double.TryParse(savedWidth, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var parsedWidth))
+        {
+            DetailPaneWidth = Math.Clamp(parsedWidth, MinDetailPaneWidth, MaxDetailPaneWidth);
         }
 
         await ReloadAllDataAsync();
@@ -600,5 +614,14 @@ public partial class MainViewModel : ObservableObject
         ThemePreference = preference;
         ThemeChanged?.Invoke(preference);
         await _repository.SetSettingAsync(SettingThemeKey, preference.ToString());
+    }
+
+    public async Task SaveDetailPaneWidthAsync(double width)
+    {
+        var clamped = Math.Clamp(Math.Round(width), MinDetailPaneWidth, MaxDetailPaneWidth);
+        DetailPaneWidth = clamped;
+        await _repository.SetSettingAsync(
+            SettingDetailWidthKey,
+            clamped.ToString(System.Globalization.CultureInfo.InvariantCulture));
     }
 }

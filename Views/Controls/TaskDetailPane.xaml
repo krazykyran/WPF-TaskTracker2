@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              xmlns:models="clr-namespace:TaskTracker2.Models"
-             Width="360">
+             HorizontalAlignment="Stretch">
     <UserControl.Resources>
         <Style x:Key="PrioritySegmentStyle" TargetType="Button">
             <Setter Property="Background" Value="{DynamicResource ControlFillColorDefaultBrush}" />
@@ -65,9 +65,11 @@
                 <ui:Button Grid.Column="1"
                            Appearance="Transparent"
                            Padding="7"
-                           ToolTip="Close details (Esc)"
+                           ToolTip="Collapse details panel (Esc)"
                            Click="CloseButton_Click">
-                    <ui:SymbolIcon Symbol="Dismiss20" FontSize="14" />
+                    <ui:SymbolIcon Symbol="PanelRightContract20"
+                                   FontSize="17"
+                                   Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
                 </ui:Button>
             </Grid>
 

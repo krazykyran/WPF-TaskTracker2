@@ -5,9 +5,9 @@
                  xmlns:controls="clr-namespace:TaskTracker2.Views.Controls"
                  Title="TaskTracker"
                  Icon="pack://application:,,,/Assets/app.ico"
-                 Width="1180"
-                 Height="760"
-                 MinWidth="860"
+                 Width="1280"
+                 Height="780"
+                 MinWidth="900"
                  MinHeight="560"
                  WindowStartupLocation="CenterScreen"
                  WindowBackdropType="Mica"
@@ -37,15 +37,60 @@
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="248" />
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" MinWidth="360" />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition x:Name="DetailPaneColumn" Width="0" />
             </Grid.ColumnDefinitions>
 
             <controls:SidebarView Grid.Column="0" />
 
             <controls:TaskListView x:Name="TaskListControl" Grid.Column="1" />
 
-            <controls:TaskDetailPane Grid.Column="2"
+            <!-- Draggable Resizer Handle -->
+            <GridSplitter x:Name="DetailSplitter"
+                          Grid.Column="2"
+                          Width="6"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Stretch"
+                          ResizeDirection="Columns"
+                          ResizeBehavior="PreviousAndNext"
+                          ShowsPreview="False"
+                          Cursor="SizeWE"
+                          ToolTip="Drag to resize details pane"
+                          DragCompleted="DetailSplitter_DragCompleted"
+                          Visibility="{Binding IsDetailPaneOpen, Converter={StaticResource BoolToVisibilityConverter}}">
+                <GridSplitter.Template>
+                    <ControlTemplate TargetType="GridSplitter">
+                        <Border x:Name="SplitterTrack"
+                                Background="Transparent"
+                                Cursor="SizeWE">
+                            <Border x:Name="GripPill"
+                                    Width="2"
+                                    Height="44"
+                                    CornerRadius="1"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Background="{DynamicResource CardStrokeColorDefaultBrush}" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="SplitterTrack" Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
+                                <Setter TargetName="GripPill" Property="Width" Value="3" />
+                                <Setter TargetName="GripPill" Property="Height" Value="64" />
+                                <Setter TargetName="GripPill" Property="Background" Value="{DynamicResource SystemAccentColorPrimaryBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsDragging" Value="True">
+                                <Setter TargetName="SplitterTrack" Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
+                                <Setter TargetName="GripPill" Property="Width" Value="3" />
+                                <Setter TargetName="GripPill" Property="Height" Value="80" />
+                                <Setter TargetName="GripPill" Property="Background" Value="{DynamicResource SystemAccentColorPrimaryBrush}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </GridSplitter.Template>
+            </GridSplitter>
+
+            <controls:TaskDetailPane Grid.Column="3"
                                      Visibility="{Binding IsDetailPaneOpen, Converter={StaticResource BoolToVisibilityConverter}}" />
 
             <!-- Floating Toast / Undo Snackbar Overlay -->

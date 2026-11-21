@@ -32,8 +32,45 @@ public partial class MainWindow : FluentWindow
         _viewModel.ThemeChanged += ApplyTheme;
         _viewModel.UndoSnackbarRequested += msg => ShowToast(msg, showUndo: true);
         _viewModel.InfoSnackbarRequested += msg => ShowToast(msg, showUndo: false);
+        _viewModel.PropertyChanged += ViewModel_PropertyChanged;
 
         Closing += MainWindow_Closing;
+    }
+
+    private void ViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(MainViewModel.IsDetailPaneOpen))
+        {
+            UpdateDetailPaneColumnState();
+        }
+        else if (e.PropertyName == nameof(MainViewModel.DetailPaneWidth) && _viewModel.IsDetailPaneOpen)
+        {
+            DetailPaneColumn.Width = new GridLength(_viewModel.DetailPaneWidth);
+        }
+    }
+
+    private void UpdateDetailPaneColumnState()
+    {
+        if (_viewModel.IsDetailPaneOpen)
+        {
+            DetailPaneColumn.MinWidth = MainViewModel.MinDetailPaneWidth;
+            DetailPaneColumn.MaxWidth = MainViewModel.MaxDetailPaneWidth;
+            DetailPaneColumn.Width = new GridLength(_viewModel.DetailPaneWidth);
+        }
+        else
+        {
+            DetailPaneColumn.MinWidth = 0;
+            DetailPaneColumn.MaxWidth = double.PositiveInfinity;
+            DetailPaneColumn.Width = new GridLength(0);
+        }
+    }
+
+    private async void DetailSplitter_DragCompleted(object sender, DragCompletedEventArgs e)
+    {
+        if (_viewModel.IsDetailPaneOpen && DetailPaneColumn.ActualWidth > 0)
+        {
+            await _viewModel.SaveDetailPaneWidthAsync(DetailPaneColumn.ActualWidth);
+        }
     }
 
     private void ApplyTheme(AppThemePreference preference)
