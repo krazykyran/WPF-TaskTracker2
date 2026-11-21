@@ -1,0 +1,26 @@
+## .NET / WPF / Visual Studio / Rider
+bin/
+obj/
+.vs/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.DotSettings.user
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+
+## Local database files (if copied locally)
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+
+## OS files
+Thumbs.db
+Desktop.ini
+.DS_Store

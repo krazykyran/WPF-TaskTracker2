@@ -1,0 +1,34 @@
+<Application x:Class="TaskTracker2.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             xmlns:conv="clr-namespace:TaskTracker2.Converters"
+             ShutdownMode="OnMainWindowClose">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ui:ThemesDictionary Theme="Dark" />
+                <ui:ControlsDictionary />
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- Value Converters -->
+            <conv:PriorityToLabelConverter x:Key="PriorityToLabelConverter" />
+            <conv:PriorityToBrushConverter x:Key="PriorityToBrushConverter" />
+            <conv:PriorityToSoftBrushConverter x:Key="PriorityToSoftBrushConverter" />
+            <conv:PriorityEqualsConverter x:Key="PriorityEqualsConverter" />
+            <conv:HexToBrushConverter x:Key="HexToBrushConverter" />
+            <conv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+            <conv:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter" />
+            <conv:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+            <conv:NotNullToVisibilityConverter x:Key="NotNullToVisibilityConverter" />
+            <conv:StringNotEmptyToVisibilityConverter x:Key="StringNotEmptyToVisibilityConverter" />
+            <conv:BoolToTextDecorationsConverter x:Key="BoolToTextDecorationsConverter" />
+            <conv:BoolToOpacityConverter x:Key="BoolToOpacityConverter" />
+            <conv:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
+            <conv:ZeroCountToVisibilityConverter x:Key="ZeroCountToVisibilityConverter" />
+            <conv:DateOnlyToDateTimeConverter x:Key="DateOnlyToDateTimeConverter" />
+            <conv:SymbolNameConverter x:Key="SymbolNameConverter" />
+            <conv:ThemeEqualsConverter x:Key="ThemeEqualsConverter" />
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
