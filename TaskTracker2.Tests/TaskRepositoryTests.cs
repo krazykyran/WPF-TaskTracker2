@@ -35,19 +35,10 @@ public sealed class TaskRepositoryTests : IDisposable
     private string CreateTempDbPath(string name = "tasks.db") => Path.Combine(_tempDir, name);
 
     [Fact]
-    public async Task InitializeAsync_MigratesCopyOfExistingTasksDb_PreservesAllExistingRows()
+    public async Task InitializeAsync_MigratesLegacyTasksDb_PreservesAllExistingRows()
     {
-        var tempDb = CreateTempDbPath("existing_copy.db");
-        var realDb = DatabasePaths.GetDefaultDatabasePath();
-
-        if (File.Exists(realDb))
-        {
-            File.Copy(realDb, tempDb, overwrite: true);
-        }
-        else
-        {
-            await SeedLegacySchemaAsync(tempDb);
-        }
+        var tempDb = CreateTempDbPath("legacy_copy.db");
+        await SeedLegacySchemaAsync(tempDb);
 
         var initializer = new DatabaseInitializer(tempDb);
         await initializer.InitializeAsync();

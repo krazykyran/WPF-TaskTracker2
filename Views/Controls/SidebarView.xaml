@@ -98,10 +98,10 @@
 
             <!-- Brand Header -->
             <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="8,2,8,14" VerticalAlignment="Center">
-                <Border Width="28" Height="28" CornerRadius="8"
-                        Background="{DynamicResource SystemAccentColorPrimaryBrush}">
-                    <ui:SymbolIcon Symbol="CheckmarkCircle24" FontSize="16" Foreground="White" />
-                </Border>
+                <Image Source="pack://application:,,,/Assets/app-icon.png"
+                       Width="28"
+                       Height="28"
+                       RenderOptions.BitmapScalingMode="HighQuality" />
                 <StackPanel Margin="10,0,0,0" VerticalAlignment="Center">
                     <TextBlock Text="TaskTracker"
                                FontSize="15"

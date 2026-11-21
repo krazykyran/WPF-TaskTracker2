@@ -4,6 +4,7 @@
                  xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
                  xmlns:controls="clr-namespace:TaskTracker2.Views.Controls"
                  Title="TaskTracker"
+                 Icon="pack://application:,,,/Assets/app.ico"
                  Width="1180"
                  Height="760"
                  MinWidth="860"
@@ -24,7 +25,13 @@
                      Title="TaskTracker"
                      Height="36"
                      ShowMaximize="True"
-                     ShowMinimize="True" />
+                     ShowMinimize="True">
+            <ui:TitleBar.Icon>
+                <ui:ImageIcon Source="pack://application:,,,/Assets/app-icon.png"
+                              Width="16"
+                              Height="16" />
+            </ui:TitleBar.Icon>
+        </ui:TitleBar>
 
         <!-- 3-Pane Master-Detail Workspace -->
         <Grid Grid.Row="1">
